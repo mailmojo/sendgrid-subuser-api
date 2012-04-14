@@ -2,9 +2,9 @@
 // new Api("...", "...", false, true) to enable debug output
 $sendgrid = new SendGrid\Api("my_username", "my_password");
 
-// Initialize new user without actually creating it
+// Initialize new user without actually creating it (the next step does that)
 $user = new SendGrid\SubUser("wanted_username", "password", "email@example.com",
-		"email.domain.example.com"); // Many optional arguments available
+		"email.domain.example.com"); // Optional arguments are available
 
 // Add the sub user to your account
 $sendgrid->addSubUser($user);
