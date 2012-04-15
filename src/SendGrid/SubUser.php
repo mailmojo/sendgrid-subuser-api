@@ -56,6 +56,17 @@ class SubUser {
 	}
 
 	/**
+	 * Add an existing monitor record to the user.
+	 *
+	 * @param string $name Name of the monitor record which must exist.
+	 */
+	public function addMonitoring ($name) {
+		$this->api->debug("Adding monitor record '$name' for '{$this->username}'");
+		$params = array('task' => 'append', 'name' => $name);
+		$this->execute('customer.monitor.json', $params);
+	}
+
+	/**
 	 * Assign or clear IPs available to the user.
 	 *
 	 * $ips should contain one or more IPs to assign to the user, or be empty to clear
@@ -90,9 +101,8 @@ class SubUser {
 	 */
 	public function configureApp ($app, array $settings) {
 		$this->api->debug("Configuring app '$app' for '{$this->username}'");
-		$this->execute('customer.apps.json', array(
-			'task' => 'setup',
-			'name' => $app), $settings);
+		$params = array('task' => 'setup', 'name' => $app);
+		$this->execute('customer.apps.json', $params, $settings);
 	}
 
 	/**
@@ -109,10 +119,8 @@ class SubUser {
 	 */
 	public function getAppSettings ($app) {
 		$this->api->debug("Getting app '$app' settings for '{$this->username}'");
-		return $this->retrieve('customer.apps.json', array(
-			'task' => 'getsettings',
-			'name' => $app
-		));
+		$params = array('task' => 'getsettings', 'name' => $app);
+		return $this->retrieve('customer.apps.json', $params);
 	}
 
 	/**
@@ -135,9 +143,8 @@ class SubUser {
 	public function enableApp ($app, $enable, array $settings = null) {
 		$action = $enable ? 'activate' : 'deactivate';
 		$this->api->debug("Setting app '$app' to '$action' for '{$this->username}'");
-		$this->execute('customer.apps.json', array(
-			'task' => $action,
-			'name' => $app));
+		$params = array('task' => $action, 'name' => $app);
+		$this->execute('customer.apps.json', $params);
 
 		if ($enable && !empty($settings)) {
 			$this->configureApp($app, $settings);
