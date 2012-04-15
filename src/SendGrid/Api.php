@@ -1,5 +1,6 @@
 <?php
 namespace SendGrid;
+use \LogicException, \InvalidArgumentException, \RuntimeException;
 require_once 'SubUser.php';
 
 /**
