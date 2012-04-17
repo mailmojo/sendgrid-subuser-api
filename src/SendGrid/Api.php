@@ -70,7 +70,7 @@ class Api {
 
 		// SendGrid defaults to give website access. Disable if requested.
 		if (!$this->defaultWebsiteAccess) {
-			$user->enableWebSideAccess(false);
+			$user->enableWebSiteAccess(false);
 		}
 	}
 
