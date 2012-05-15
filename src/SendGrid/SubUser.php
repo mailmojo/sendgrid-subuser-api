@@ -1,5 +1,6 @@
 <?php
 namespace SendGrid;
+use \InvalidArgumentException;
 
 /**
  * This class represents a SendGrid sub users.
@@ -131,7 +132,7 @@ class SubUser {
 	}
 
 	/**
-	 * Enables or disables an app.
+	 * Enable or disable an app.
 	 *
 	 * If the app is to be enabled, $settings may optionally be supplied for configuring
 	 * the app without a need for an explicit configureApp() call.
@@ -158,6 +159,47 @@ class SubUser {
 		$action = $enable ? 'enable' : 'disable';
 		$this->execute("customer.website_$action.json");
 	}
+
+    /**
+     * Enable or disable the user from sending email through SendGrid.
+     */
+    public function enableSubuser ($enable) {
+        $action = $enable ? 'enable' : 'disable';
+        $this->execute("customer.$enable.json");
+    }
+
+    /**
+     * Change the contact email.
+     *
+     * This object is updated with the new email if successful.
+     */
+    public function updateEmail ($new) {
+        $params = array('task' => 'setEmail', 'email' => $new);
+        $this->execute('customer.profile.json', $params);
+        $this->email = $new;
+    }
+
+    /**
+     * Change the password.
+     */
+    public function updatePassword ($new) {
+        if (strlen($new) < 6) {
+            throw new InvalidArgumentException("Password must be at least 6 characters");
+        }
+        $params = array('password' => $new, 'confirm_password' => $new);
+        $this->execute('customer.password.json', $params);
+    }
+
+    /**
+     * Change the username.
+     *
+     * This object is updated with the new username if successful.
+     */
+    public function updateUsername ($new) {
+        $params = array('task' => 'setUsername', 'username' => $new);
+        $this->execute('customer.profile.json', $params);
+        $this->username = $new;
+    }
 
 	/**
 	 * Retrieve the profile data as an associative array.
