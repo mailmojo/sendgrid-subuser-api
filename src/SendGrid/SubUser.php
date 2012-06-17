@@ -165,7 +165,7 @@ class SubUser {
      */
     public function enableSubuser ($enable) {
         $action = $enable ? 'enable' : 'disable';
-        $this->execute("customer.$enable.json");
+        $this->execute("customer.$action.json");
     }
 
     /**
