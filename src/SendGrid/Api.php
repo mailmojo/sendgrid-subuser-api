@@ -108,12 +108,13 @@ class Api {
 		$this->debug("Querying URL: $url");
 		curl_setopt($this->ch, CURLOPT_URL, $url);
 		$data = curl_exec($this->ch);
+		$decoded = json_decode($data);
 
-		if (empty($data)) {
-			throw new RuntimeException("No data received from server. No Internet connection?");
+		if (empty($decoded)) {
+			$error_code = json_last_error();
+			throw new RuntimeException("Error retrieving data. No Internet connection? [$error_code]");
 		}
 
-		$decoded = json_decode($data);
 		if (isset($decoded->error)) {
 			$code = $decoded->error->code;
 			$msg = $decoded->error->message;
@@ -125,7 +126,7 @@ class Api {
 			throw new LogicException($msg . " [Code: $code]");
 		}
 
-		return json_decode($data);
+		return $decoded;
 	}
 
 	/**
