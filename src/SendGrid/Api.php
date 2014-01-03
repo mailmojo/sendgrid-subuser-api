@@ -110,7 +110,7 @@ class Api {
 		$data = curl_exec($this->ch);
 		$decoded = json_decode($data);
 
-		if (empty($decoded)) {
+		if ($decoded === null) {
 			$error_code = json_last_error();
 			throw new RuntimeException("Error retrieving data. No Internet connection? [$error_code]");
 		}
