@@ -132,6 +132,13 @@ class SubUser {
 	}
 
 	/**
+	 * Delete the subuser.
+	 */
+	public function delete () {
+		$this->execute('customer.delete.json');
+	}
+
+	/**
 	 * Enable or disable an app.
 	 *
 	 * If the app is to be enabled, $settings may optionally be supplied for configuring

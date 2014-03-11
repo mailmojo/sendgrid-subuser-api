@@ -33,3 +33,6 @@ $apps = $user->getApps();
 
 // Get current settings for a specific app
 $settings = $user->getAppSettings("eventnotify");
+
+// Delete the subuser
+$user->delete();
