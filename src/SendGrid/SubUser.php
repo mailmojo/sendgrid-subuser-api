@@ -57,6 +57,31 @@ class SubUser {
 	}
 
 	/**
+	 * Retrieve all available apps.
+	 */
+	public function getApps () {
+		return $this->retrieve('customer.apps.json', array('task' => 'getavailable'));
+	}
+
+	/**
+	 * Retrieve settings for the specific app.
+	 *
+	 * @param string $app Name of the app. Use getApps() to find their names.
+	 */
+	public function getAppSettings ($app) {
+		$this->api->debug("Getting app '$app' settings for '{$this->username}'");
+		$params = array('task' => 'getsettings', 'name' => $app);
+		return $this->retrieve('customer.apps.json', $params);
+	}
+
+	/**
+	 * Retrieve the current URL uses for event notifications.
+	 */
+	public function getEventNotificationUrl () {
+		return $this->retrieve('customer.eventposturl.json', array('task' => 'get'));
+	}
+
+	/**
 	 * Add an existing monitor record to the user.
 	 *
 	 * @param string $name Name of the monitor record which must exist.
@@ -104,31 +129,6 @@ class SubUser {
 		$this->api->debug("Configuring app '$app' for '{$this->username}'");
 		$params = array('task' => 'setup', 'name' => $app);
 		$this->execute('customer.apps.json', $params, $settings);
-	}
-
-	/**
-	 * Retrieve all available apps.
-	 */
-	public function getApps () {
-		return $this->retrieve('customer.apps.json', array('task' => 'getavailable'));
-	}
-
-	/**
-	 * Retrieve settings for the specific app.
-	 *
-	 * @param string $app Name of the app. Use getApps() to find their names.
-	 */
-	public function getAppSettings ($app) {
-		$this->api->debug("Getting app '$app' settings for '{$this->username}'");
-		$params = array('task' => 'getsettings', 'name' => $app);
-		return $this->retrieve('customer.apps.json', $params);
-	}
-
-	/**
-	 * Retrieve the current URL uses for event notifications.
-	 */
-	public function getEventNotificationUrl () {
-		return $this->retrieve('customer.eventposturl.json', array('task' => 'get'));
 	}
 
 	/**
