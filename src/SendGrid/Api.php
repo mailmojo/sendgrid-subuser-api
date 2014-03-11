@@ -85,11 +85,21 @@ class Api {
 		$params = array('task' => 'get', 'username' => $username);
 		$data = $this->retrieve('customer.profile.json', $params);
 
-		if (empty($data)) {
+		/*
+		 * Retrieving subusers is search as opposed to a specific retrieval, meaning that the
+		 * API query can return multiple users if the username is contained within the username
+		 * of several subusers. We therefore go through all results and use only the one with an
+		 * exact match.
+		 */
+		$match = array_filter($data, function ($elm) use ($username) {
+			return $elm->username == $username;
+		});
+
+		if (empty($match)) {
 			throw new InvalidArgumentException("No subuser '$username' found.");
 		}
 
-		extract(get_object_vars($data[0]));
+		extract(get_object_vars($match[0]));
 		return new SubUser($username, null, $email, null, $first_name, $last_name,
 						   $address, $city, $state, $zip, $country, $phone, $website,
 						   $this);
