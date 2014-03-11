@@ -1,0 +1,16 @@
+{
+    "name": "eliksir/sendgrid-subuser-api",
+    "type": "library",
+    "description": "Library to easily work with the SendGrid Subuser API",
+    "keywords": ["email", "sendgrid"],
+    "homepage": "https://github.com/eliksir/sendgrid-subuser-api",
+    "license": "BSD",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "SendGrid": "src"
+        }
+    }
+}
