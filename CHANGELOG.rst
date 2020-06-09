@@ -3,6 +3,11 @@ Changelog
 
 Only important changes are mentioned in this file. See the `commit log <https://github.com/eliksir/sendgrid-subuser-api/commits/master>`_ for all changes.
 
+0.3.1 (2020-06-10)
+--------------------
+
+* [Fix] Improve PHP7 compatibility
+
 0.3 (2014-03-11)
 --------------------
 
