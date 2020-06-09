@@ -95,11 +95,18 @@ class Api {
 			return $elm->username == $username;
 		});
 
-		if (empty($match)) {
+		if (empty($match) || !isset($match[0]) || empty($match[0])) {
 			throw new InvalidArgumentException("No subuser '$username' found.");
 		}
 
-		extract(get_object_vars($match[0]));
+		$vars = get_object_vars($match[0]);
+		if (!$vars) {
+			throw new InvalidArgumentException("Unexpected result when retrieving '$username'.");
+		}
+
+		$email = $first_name = $last_name = $address = $city = $state = $zip = $country = $phone = $website = null;
+		extract($vars);
+
 		return new SubUser($username, null, $email, null, $first_name, $last_name,
 						   $address, $city, $state, $zip, $country, $phone, $website,
 						   $this);
